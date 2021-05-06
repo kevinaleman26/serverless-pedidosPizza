@@ -49,8 +49,6 @@ resources:
             AttributeType: S
           - AttributeName: email
             AttributeType: S
-          - AttributeName: isActive
-            AttributeType: B
         KeySchema:
           - AttributeName: email
             KeyType: HASH
