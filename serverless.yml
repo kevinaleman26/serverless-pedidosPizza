@@ -21,7 +21,9 @@ functions:
   hacerPedido:
     handler: handler.hacerPedido
     events:
-      - http: POST /hacerPedido
+      - http: 
+        method: POST 
+        path: hacerPedido
         integration: lambda
         response: 
           headers:
