@@ -39,8 +39,18 @@ resources:
       Properties:
         TableName: usersTable
         AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: username
+            AttributeType: S
+          - AttributeName: name
+            AttributeType: S
+          - AttributeName: lastname
+            AttributeType: S
           - AttributeName: email
             AttributeType: S
+          - AttributeName: isActive
+            AttributeType: B
         KeySchema:
           - AttributeName: email
             KeyType: HASH
