@@ -133,6 +133,16 @@
                       "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/pedirPizzas-dev*:*:*"
                     }
                   ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "dynamodb:GetItem",
+                    "dynamodb:PutItem"
+                  ],
+                  "Resource": "*"
                 }
               ]
             }
@@ -161,7 +171,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/pedirPizzas/dev/1620341475658-2021-05-06T22:51:15.658Z/pedirPizzas.zip"
+          "S3Key": "serverless/pedirPizzas/dev/1620344192280-2021-05-06T23:36:32.280Z/pedirPizzas.zip"
         },
         "Handler": "handler.hacerPedido",
         "Runtime": "nodejs14.x",
@@ -171,6 +181,7 @@
         "Environment": {
           "Variables": {
             "REGION": "us-east-1",
+            "ENVIROMENT": "dev",
             "PENDING_ORDER_QUEUE": {
               "Ref": "PendingOrdersQueue"
             }
@@ -187,35 +198,35 @@
         "HacerPedidoLogGroup"
       ]
     },
-    "HacerPedidoLambdaVersionExD01mhFsR1fumlq9QRNtlObETXm627BgZzJIXqq1c": {
+    "HacerPedidoLambdaVersionHGSz3B8Cp5wenNorTdFaWE4eFuLLu6OthhhdUusT4": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "HacerPedidoLambdaFunction"
         },
-        "CodeSha256": "GuX+G40KWwy54nkTY0wivhykam/XQeeua7/1984Uj/k="
+        "CodeSha256": "aUDmO0K6Fp2C4iUFA+V/hlsOeUSVOjO/gUBN5ocLviM="
       }
     },
     "PendingOrdersQueue": {
       "Type": "AWS::SQS::Queue",
       "Properties": {
-        "QueueName": "PendingOrderQueue"
+        "QueueName": "PendingOrderQueue-dev"
       }
     },
     "usersTable": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
-        "TableName": "usersTable",
+        "TableName": "dev-usersTable-us-east-1",
         "AttributeDefinitions": [
           {
-            "AttributeName": "email",
+            "AttributeName": "id",
             "AttributeType": "S"
           }
         ],
         "KeySchema": [
           {
-            "AttributeName": "email",
+            "AttributeName": "id",
             "KeyType": "HASH"
           }
         ],
@@ -238,7 +249,7 @@
     "HacerPedidoLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "HacerPedidoLambdaVersionExD01mhFsR1fumlq9QRNtlObETXm627BgZzJIXqq1c"
+        "Ref": "HacerPedidoLambdaVersionHGSz3B8Cp5wenNorTdFaWE4eFuLLu6OthhhdUusT4"
       },
       "Export": {
         "Name": "sls-pedirPizzas-dev-HacerPedidoLambdaFunctionQualifiedArn"

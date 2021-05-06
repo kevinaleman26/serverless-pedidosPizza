@@ -11,14 +11,27 @@
       "timeout": 30,
       "memorySize": 512,
       "lambdaHashingVersion": "20201221",
-      "apiName": "apiGateway",
+      "apiName": "apiGateway-dev-us-east-1",
       "region": "us-east-1",
       "environment": {
         "REGION": "us-east-1",
+        "ENVIROMENT": "dev",
         "PENDING_ORDER_QUEUE": {
           "Ref": "PendingOrdersQueue"
         }
       },
+      "iamRoleStatements": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "dynamodb:Query",
+            "dynamodb:Scan",
+            "dynamodb:GetItem",
+            "dynamodb:PutItem"
+          ],
+          "Resource": "*"
+        }
+      ],
       "variableSyntax": "\\${([^{}:]+?(?:\\(|:)(?:[^:{}][^{}]*?)?)}",
       "versionFunctions": true,
       "compiledCloudFormationTemplate": {
@@ -156,6 +169,9 @@
                             "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/pedirPizzas-dev*:*:*"
                           }
                         ]
+                      },
+                      {
+                        "$ref": "$[\"service\"][\"provider\"][\"iamRoleStatements\"][0]"
                       }
                     ]
                   }
@@ -184,7 +200,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/pedirPizzas/dev/1620341475658-2021-05-06T22:51:15.658Z/pedirPizzas.zip"
+                "S3Key": "serverless/pedirPizzas/dev/1620344192280-2021-05-06T23:36:32.280Z/pedirPizzas.zip"
               },
               "Handler": "handler.hacerPedido",
               "Runtime": "nodejs14.x",
@@ -194,6 +210,7 @@
               "Environment": {
                 "Variables": {
                   "REGION": "us-east-1",
+                  "ENVIROMENT": "dev",
                   "PENDING_ORDER_QUEUE": {
                     "$ref": "$[\"service\"][\"provider\"][\"environment\"][\"PENDING_ORDER_QUEUE\"]"
                   }
@@ -210,35 +227,35 @@
               "HacerPedidoLogGroup"
             ]
           },
-          "HacerPedidoLambdaVersionExD01mhFsR1fumlq9QRNtlObETXm627BgZzJIXqq1c": {
+          "HacerPedidoLambdaVersionHGSz3B8Cp5wenNorTdFaWE4eFuLLu6OthhhdUusT4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "HacerPedidoLambdaFunction"
               },
-              "CodeSha256": "GuX+G40KWwy54nkTY0wivhykam/XQeeua7/1984Uj/k="
+              "CodeSha256": "aUDmO0K6Fp2C4iUFA+V/hlsOeUSVOjO/gUBN5ocLviM="
             }
           },
           "PendingOrdersQueue": {
             "Type": "AWS::SQS::Queue",
             "Properties": {
-              "QueueName": "PendingOrderQueue"
+              "QueueName": "PendingOrderQueue-dev"
             }
           },
           "usersTable": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
-              "TableName": "usersTable",
+              "TableName": "dev-usersTable-us-east-1",
               "AttributeDefinitions": [
                 {
-                  "AttributeName": "email",
+                  "AttributeName": "id",
                   "AttributeType": "S"
                 }
               ],
               "KeySchema": [
                 {
-                  "AttributeName": "email",
+                  "AttributeName": "id",
                   "KeyType": "HASH"
                 }
               ],
@@ -261,7 +278,7 @@
           "HacerPedidoLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "HacerPedidoLambdaVersionExD01mhFsR1fumlq9QRNtlObETXm627BgZzJIXqq1c"
+              "Ref": "HacerPedidoLambdaVersionHGSz3B8Cp5wenNorTdFaWE4eFuLLu6OthhhdUusT4"
             },
             "Export": {
               "Name": "sls-pedirPizzas-dev-HacerPedidoLambdaFunctionQualifiedArn"
@@ -359,8 +376,7 @@
         "handler": "handler.hacerPedido",
         "events": [
           {
-            "method": "POST",
-            "path": "hacerPedido",
+            "method": "POST /hacerPedido",
             "integration": "lambda",
             "response": {
               "headers": {
@@ -376,7 +392,7 @@
         "timeout": 30,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "HacerPedidoLambdaVersionExD01mhFsR1fumlq9QRNtlObETXm627BgZzJIXqq1c"
+        "versionLogicalId": "HacerPedidoLambdaVersionHGSz3B8Cp5wenNorTdFaWE4eFuLLu6OthhhdUusT4"
       }
     },
     "resources": {
@@ -384,22 +400,22 @@
         "PendingOrdersQueue": {
           "Type": "AWS::SQS::Queue",
           "Properties": {
-            "QueueName": "PendingOrderQueue"
+            "QueueName": "PendingOrderQueue-dev"
           }
         },
         "usersTable": {
           "Type": "AWS::DynamoDB::Table",
           "Properties": {
-            "TableName": "usersTable",
+            "TableName": "dev-usersTable-us-east-1",
             "AttributeDefinitions": [
               {
-                "AttributeName": "email",
+                "AttributeName": "id",
                 "AttributeType": "S"
               }
             ],
             "KeySchema": [
               {
-                "AttributeName": "email",
+                "AttributeName": "id",
                 "KeyType": "HASH"
               }
             ],
@@ -434,7 +450,7 @@
     "artifact": "/Users/admin/Documents/OneDrive/Documentos/serverless/pedirPizzas/.serverless/pedirPizzas.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/pedirPizzas/dev/1620341475658-2021-05-06T22:51:15.658Z",
+    "artifactDirectoryName": "serverless/pedirPizzas/dev/1620344192280-2021-05-06T23:36:32.280Z",
     "artifact": "pedirPizzas.zip"
   }
 }

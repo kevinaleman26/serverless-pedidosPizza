@@ -10,19 +10,27 @@ provider:
   timeout: 30
   memorySize: 512
   lambdaHashingVersion: 20201221
-  apiName: apiGateway
+  apiName: apiGateway-${self:provider.stage}-${self:provider.region}
   region: us-east-1
   environment:
     REGION: ${self:provider.region}
+    ENVIROMENT: ${self:provider.stage}
     PENDING_ORDER_QUEUE:
       Ref: PendingOrdersQueue
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource: "*"
 
 functions:
   hacerPedido:
     handler: handler.hacerPedido
     events:
-      - http: 
-        method: POST /hacerPedido
+      - http: POST /hacerPedido
         integration: lambda
         response: 
           headers:
@@ -33,11 +41,11 @@ resources:
     PendingOrdersQueue:
       Type: "AWS::SQS::Queue"
       Properties:
-        QueueName: "PendingOrderQueue"
+        QueueName: PendingOrderQueue-${self:provider.stage}
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: usersTable-${self:provider.region}
+        TableName: ${self:provider.stage}-usersTable-${self:provider.region}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
