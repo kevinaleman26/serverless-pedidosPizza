@@ -37,9 +37,15 @@ resources:
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: usersTable
+        TableName: usersTable-${self:provider.region}
         AttributeDefinitions:
           - AttributeName: id
+            AttributeType: S
+          - AttributeName: name
+            AttributeType: S
+          - AttributeName: lastname
+            AttributeType: S
+          - AttributeName: email
             AttributeType: S
         KeySchema:
           - AttributeName: email
