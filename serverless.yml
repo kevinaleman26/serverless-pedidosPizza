@@ -1,0 +1,48 @@
+
+service: pedirPizzas
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  timeout: 30
+  memorySize: 512
+  lambdaHashingVersion: 20201221
+  apiName: apiGateway
+  region: us-east-1
+  environment:
+    REGION: ${self:provider.region}
+    PENDING_ORDER_QUEUE:
+      Ref: PendingOrdersQueue
+
+functions:
+  hacerPedido:
+    handler: handler.hacerPedido
+    events:
+      - http: POST /hacerPedido
+        integration: lambda
+        response: 
+          headers:
+            Content-Type: "'application/json'"
+
+resources:
+  Resources:
+    PendingOrdersQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "PendingOrderQueue"
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: usersTable
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
