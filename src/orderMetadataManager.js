@@ -18,7 +18,7 @@ module.exports.saveCompletedOrder = order => {
 
 };
 
-module.exports.deliverOrder = order => {
+module.exports.deliverOrder = orderId => {
 
     console.log('Enviar una orden fue llamada');
 
