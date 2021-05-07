@@ -62,7 +62,23 @@ module.exports.prepararPedido = (event, context, callback) => {
 
 module.exports.enviarPedido = (event, context, callback) => {
   console.log('LLegaste a enviarPedido');
-  console.log(event);
+
+  const record = event.Records[0];
+  if(record.eventName === 'INSERT'){
+    console.log('DeliverOrder');
+    const orderId = record.dynamodb.Keys.orderId.S;
+
+    orderManager.deliverOrder(orderId)
+    .then(resp => {
+      console.log(data);
+      callback();
+    })
+    .then(error => {
+      callback(error);
+    })
+
+  }
+
   callback();
 }
 
