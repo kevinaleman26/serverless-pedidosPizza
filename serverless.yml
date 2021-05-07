@@ -57,7 +57,7 @@ functions:
       - stream:
           type: dynamodb
           batchSize: 1
-          startingPosition: LASTEST
+          startingPosition: LATEST
           arn:
             Fn::GetAtt:
               - CompletedOrdersTable
