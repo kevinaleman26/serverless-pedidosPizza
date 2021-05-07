@@ -26,7 +26,7 @@ provider:
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.stage}-usersTable-${self:provider.region}"
+      Resource: "*"
     - Effect: Allow
       Action:
         - sqs:SendMessage
@@ -37,10 +37,6 @@ functions:
     handler: handler.hacerPedido
     events:
       - http: POST /hacerPedido
-        integration: lambda
-        response: 
-          headers:
-            Content-Type: "'application/json'"
   prepararPedido:
     handler: handler.prepararPedido
     events:
