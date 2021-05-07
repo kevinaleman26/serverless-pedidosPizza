@@ -20,6 +20,7 @@ provider:
     ENVIROMENT: ${self:provider.stage}
     PENDING_ORDER_QUEUE:
       Ref: PendingOrdersQueue
+  
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -28,6 +29,10 @@ provider:
         - dynamodb:GetItem
         - dynamodb:PutItem
       Resource: "*"
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+      Resource: "arn:aws:sqs:${self:provider.region}:*:PendingOrderQueue-${self:provider.stage}"
 
 functions:
   hacerPedido:
