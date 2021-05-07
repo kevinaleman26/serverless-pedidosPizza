@@ -19,24 +19,28 @@ provider:
       Ref: PendingOrdersQueue
     PENDING_ORDER_QUEUE_NAME: PendingOrdersQueue
   
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-      Resource: "*"
-    - Effect: Allow
-      Action:
-        - sqs:SendMessage
-      Resource: "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.PENDING_ORDER_QUEUE_NAME}-${self:provider.stage}"
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PENDING_ORDER_QUEUE_NAME}"
+        - Effect: Allow
+          Action:
+            - sqs:SendMessage
+          Resource: "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.PENDING_ORDER_QUEUE_NAME}"
 
 functions:
   hacerPedido:
     handler: handler.hacerPedido
     events:
-      - http: POST /hacerPedido
+      - http: 
+          methos: POST 
+          path: /hacerPedido
   prepararPedido:
     handler: handler.prepararPedido
     events:
@@ -45,14 +49,14 @@ functions:
             Fn::GetAtt:
               - PendingOrdersQueue
               - Arn
-            batchSize: 1
+          batchSize: 1
 
 resources:
   Resources:
     PendingOrdersQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: ${self:provider.environment.PENDING_ORDER_QUEUE_NAME}-${self:provider.stage}
+        QueueName: ${self:provider.environment.PENDING_ORDER_QUEUE_NAME}
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
