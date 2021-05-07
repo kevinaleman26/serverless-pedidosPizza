@@ -9,12 +9,22 @@ const QUEUE_URL = process.env.PENDING_ORDER_QUEUE;
 module.exports.hacerPedido = (event, context, callback) => {
 
   const orderId = uuidv4();
+  
+  const request = JSON.parse(event.body);
+  const {name,address,pizzas} = request;
+
+  const pedido = {
+    orderId: orderId ,
+    name: name,
+    address: address,
+    pizzas: pizzas
+  }
 
   const params = {
-		MessageBody: JSON.stringify({ orderId: orderId }),
+		MessageBody: JSON.stringify(pedido),
 		QueueUrl: QUEUE_URL
 	};
-
+	
   sqs.sendMessage(params, function(err,data){
     if(err) {
       sendResponse(500,err, callback)
