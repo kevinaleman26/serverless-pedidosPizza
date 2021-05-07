@@ -51,6 +51,17 @@ functions:
               - PendingOrdersQueue
               - Arn
           batchSize: 1
+  enviarPedido:
+    handler: handler.enviarPedido
+    events:
+      - stream:
+          type: dynamodb
+          batchSize: 1
+          startingPosition: LASTEST
+          arn:
+            Fn::GetAtt:
+              - CompletedOrdersTable
+              - StreamArn
 
 resources:
   Resources:
@@ -71,3 +82,5 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE

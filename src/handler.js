@@ -57,6 +57,16 @@ module.exports.prepararPedido = (event, context, callback) => {
 }
 
 /*
+  enviarPedido
+*/
+
+module.exports.enviarPedido = (event, context, callback) => {
+  console.log('LLegaste a enviarPedido');
+  console.log(event);
+  callback();
+}
+
+/*
   Funciones
 */
 
