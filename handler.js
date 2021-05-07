@@ -3,38 +3,35 @@
 const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 
-var sqs = new AWS.SQS({region: process.env.REGION});
+var sqs = new AWS.SQS({ region: process.env.REGION });
 const QUEUE_URL = process.env.PENDING_ORDER_QUEUE;
 
-module.exports.hacerPedido = async (event) => {
+module.exports.hacerPedido = (event, context, callback) => {
 
   const orderId = uuidv4();
 
   const params = {
-    MessageBody: JSON.stringify({orderId : orderId}),
-    QueueUrl: QUEUE_URL
-  }
+		MessageBody: JSON.stringify({ orderId: orderId }),
+		QueueUrl: QUEUE_URL
+	};
 
   sqs.sendMessage(params, function(err,data){
     if(err) {
-      return sendResponse(500,`No hay pedido`, null)
+      sendResponse(500,err, callback)
     } else {
-      return sendResponse(200,`El Pedido es: ${orderId}`, orderId)
+      const message = {
+				orderId: orderId,
+				messageId: data.MessageId
+			};
+      sendResponse(200,message, callback)
     }
   });
-
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
 
-function sendResponse(statusCode,message, orderId){
-  
-  return {
-        statusCode,
-        body: JSON.stringify({
-          orderId,
-          message
-        })
-      };
-      
+function sendResponse(statusCode, message, callback) {
+	const response = {
+		statusCode: statusCode,
+		body: JSON.stringify(message)
+	};
+	callback(null, response);
 }
