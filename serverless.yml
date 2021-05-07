@@ -41,6 +41,15 @@ functions:
         response: 
           headers:
             Content-Type: "'application/json'"
+  prepararPedido:
+    handler: handler.prepararPedido
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - PendingOrdersQueue
+              - Arn
+            batchSize: 1
 
 resources:
   Resources:
