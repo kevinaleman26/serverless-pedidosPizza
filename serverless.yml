@@ -17,6 +17,7 @@ provider:
     ENVIROMENT: ${self:provider.stage}
     PENDING_ORDER_QUEUE:
       Ref: PendingOrdersQueue
+    PENDING_ORDER_QUEUE_NAME: PendingOrdersQueue
   
   iamRoleStatements:
     - Effect: Allow
@@ -25,11 +26,11 @@ provider:
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
-      Resource: "*"
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.stage}-usersTable-${self:provider.region}"
     - Effect: Allow
       Action:
         - sqs:SendMessage
-      Resource: "arn:aws:sqs:${self:provider.region}:*:PendingOrderQueue-${self:provider.stage}"
+      Resource: "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.PENDING_ORDER_QUEUE_NAME}-${self:provider.stage}"
 
 functions:
   hacerPedido:
@@ -46,7 +47,7 @@ resources:
     PendingOrdersQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: PendingOrderQueue-${self:provider.stage}
+        QueueName: ${self:provider.environment.PENDING_ORDER_QUEUE_NAME}-${self:provider.stage}
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
