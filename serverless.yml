@@ -29,7 +29,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.stage}-${self:provider.environment.COMPLETED_ORDER_TABLE}-${self:provider.region}"
+      Resource: "*"
     - Effect: Allow
       Action:
         - sqs:SendMessage
