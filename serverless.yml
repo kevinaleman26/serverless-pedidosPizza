@@ -52,7 +52,7 @@ functions:
               - Arn
           batchSize: 1
   enviarPedido:
-    handler: handler.enviarPedido
+    handler: src/handler.enviarPedido
     events:
       - stream:
           type: dynamodb
