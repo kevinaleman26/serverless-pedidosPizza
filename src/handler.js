@@ -70,7 +70,7 @@ module.exports.enviarPedido = (event, context, callback) => {
 
     orderManager.deliverOrder(orderId)
     .then(resp => {
-      console.log(data);
+      console.log(resp);
       callback();
     })
     .then(error => {
