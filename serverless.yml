@@ -55,3 +55,7 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    bucketS3:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.stage}-keabucket
