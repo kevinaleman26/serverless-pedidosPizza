@@ -13,8 +13,7 @@ provider:
   timeout: 30
   memorySize: 512
   lambdaHashingVersion: 20201221
-  apiName: apiGateway-${self:provider.stage}-${self:provider.region}
-  stackName: ${self:provider.stage}-${self:service}
+  apiName: apiGateway-${self:service}-${self:provider.stage}
   region: us-east-1
   environment:
     REGION: ${self:provider.region}

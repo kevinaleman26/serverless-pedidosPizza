@@ -201,7 +201,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/pedirPizzas/dev/1620354222291-2021-05-07T02:23:42.291Z/pedirPizzas.zip"
+                "S3Key": "serverless/pedirPizzas/dev/1620354314730-2021-05-07T02:25:14.730Z/pedirPizzas.zip"
               },
               "Handler": "handler.hacerPedido",
               "Runtime": "nodejs14.x",
@@ -308,7 +308,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1620354219382": {
+          "ApiGatewayDeployment1620354311845": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -601,7 +601,7 @@
     "artifact": "/Users/admin/Documents/OneDrive/Documentos/serverless/pedirPizzas/.serverless/pedirPizzas.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/pedirPizzas/dev/1620354222291-2021-05-07T02:23:42.291Z",
+    "artifactDirectoryName": "serverless/pedirPizzas/dev/1620354314730-2021-05-07T02:25:14.730Z",
     "artifact": "pedirPizzas.zip"
   }
 }
