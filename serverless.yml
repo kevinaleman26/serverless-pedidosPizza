@@ -3,9 +3,6 @@ service: pedirPizzas
 
 frameworkVersion: '2'
 
-plugins:
-  - serverless-deployment-bucket
-
 provider:
   name: aws
   runtime: nodejs14.x
@@ -47,7 +44,7 @@ functions:
 resources:
   Resources:
     PendingOrdersQueue:
-      Type: "AWS::SQS::Queue"
+      Type: AWS::SQS::Queue
       Properties:
         QueueName: PendingOrderQueue-${self:provider.stage}
     usersTable:

@@ -33,7 +33,7 @@ function sendResponse(statusCode,message, orderId){
         statusCode,
         body: JSON.stringify({
           orderId,
-          message: message
+          message
         })
       };
       
