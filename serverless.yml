@@ -18,6 +18,7 @@ provider:
     PENDING_ORDER_QUEUE:
       Ref: PendingOrdersQueue
     PENDING_ORDER_QUEUE_NAME: PendingOrdersQueue
+    COMPLETED_ORDER_TABLE: CompletedOrderTable
   
   iamRoleStatements:
     - Effect: Allow
@@ -26,7 +27,9 @@ provider:
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.stage}-usersTable-${self:provider.region}"
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.stage}-${self:provider.environment.COMPLETED_ORDER_TABLE}-${self:provider.region}"
     - Effect: Allow
       Action:
         - sqs:SendMessage
@@ -34,13 +37,13 @@ provider:
 
 functions:
   hacerPedido:
-    handler: handler.hacerPedido
+    handler: src/handler.hacerPedido
     events:
       - http: 
           method: POST 
           path: /hacerPedido
   prepararPedido:
-    handler: handler.prepararPedido
+    handler: src/handler.prepararPedido
     events:
       - sqs:
           arn:
@@ -55,15 +58,15 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: ${self:provider.environment.PENDING_ORDER_QUEUE_NAME}
-    usersTable:
+    CompletedOrdersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.stage}-usersTable-${self:provider.region}
+        TableName: ${self:provider.stage}-${self:provider.environment.COMPLETED_ORDER_TABLE}-${self:provider.region}
         AttributeDefinitions:
-          - AttributeName: id
+          - AttributeName: orderId
             AttributeType: S
         KeySchema:
-          - AttributeName: id
+          - AttributeName: orderId
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
