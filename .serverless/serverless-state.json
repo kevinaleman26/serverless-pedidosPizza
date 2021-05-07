@@ -12,6 +12,7 @@
       "memorySize": 512,
       "lambdaHashingVersion": "20201221",
       "apiName": "apiGateway-dev-us-east-1",
+      "stackName": "dev-pedirPizzas",
       "region": "us-east-1",
       "environment": {
         "REGION": "us-east-1",
@@ -200,7 +201,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/pedirPizzas/dev/1620350599000-2021-05-07T01:23:19.000Z/pedirPizzas.zip"
+                "S3Key": "serverless/pedirPizzas/dev/1620354222291-2021-05-07T02:23:42.291Z/pedirPizzas.zip"
               },
               "Handler": "handler.hacerPedido",
               "Runtime": "nodejs14.x",
@@ -227,14 +228,14 @@
               "HacerPedidoLogGroup"
             ]
           },
-          "HacerPedidoLambdaVersionHGSz3B8Cp5wenNorTdFaWE4eFuLLu6OthhhdUusT4": {
+          "HacerPedidoLambdaVersioniP5yjL0gWwT7lW4AYVXPvcdydi7QtrHCJHkDLPe2mc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "HacerPedidoLambdaFunction"
               },
-              "CodeSha256": "aUDmO0K6Fp2C4iUFA+V/hlsOeUSVOjO/gUBN5ocLviM="
+              "CodeSha256": "ZnwneKly9PUlHPO4vOokulJS2xyHAhDFEudfRJE5KxE="
             }
           },
           "ApiGatewayRestApi": {
@@ -307,7 +308,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1620350596352": {
+          "ApiGatewayDeployment1620354219382": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -383,12 +384,6 @@
                 "WriteCapacityUnits": 1
               }
             }
-          },
-          "bucketS3": {
-            "Type": "AWS::S3::Bucket",
-            "Properties": {
-              "BucketName": "dev-keabucket"
-            }
           }
         },
         "Outputs": {
@@ -403,7 +398,7 @@
           "HacerPedidoLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "HacerPedidoLambdaVersionHGSz3B8Cp5wenNorTdFaWE4eFuLLu6OthhhdUusT4"
+              "Ref": "HacerPedidoLambdaVersioniP5yjL0gWwT7lW4AYVXPvcdydi7QtrHCJHkDLPe2mc"
             },
             "Export": {
               "Name": "sls-pedirPizzas-dev-HacerPedidoLambdaFunctionQualifiedArn"
@@ -521,6 +516,9 @@
       },
       "vpc": {}
     },
+    "plugins": [
+      "serverless-deployment-bucket"
+    ],
     "pluginsData": {},
     "functions": {
       "hacerPedido": {
@@ -542,7 +540,7 @@
         "timeout": 30,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "HacerPedidoLambdaVersionHGSz3B8Cp5wenNorTdFaWE4eFuLLu6OthhhdUusT4"
+        "versionLogicalId": "HacerPedidoLambdaVersioniP5yjL0gWwT7lW4AYVXPvcdydi7QtrHCJHkDLPe2mc"
       }
     },
     "resources": {
@@ -574,12 +572,6 @@
               "WriteCapacityUnits": 1
             }
           }
-        },
-        "bucketS3": {
-          "Type": "AWS::S3::Bucket",
-          "Properties": {
-            "BucketName": "dev-keabucket"
-          }
         }
       },
       "Outputs": {}
@@ -592,6 +584,9 @@
         "$ref": "$[\"service\"][\"serviceObject\"]"
       },
       "frameworkVersion": "2",
+      "plugins": {
+        "$ref": "$[\"service\"][\"plugins\"]"
+      },
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
       },
@@ -606,7 +601,7 @@
     "artifact": "/Users/admin/Documents/OneDrive/Documentos/serverless/pedirPizzas/.serverless/pedirPizzas.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/pedirPizzas/dev/1620350599000-2021-05-07T01:23:19.000Z",
+    "artifactDirectoryName": "serverless/pedirPizzas/dev/1620354222291-2021-05-07T02:23:42.291Z",
     "artifact": "pedirPizzas.zip"
   }
 }
