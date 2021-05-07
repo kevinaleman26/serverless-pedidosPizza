@@ -18,7 +18,7 @@ provider:
     PENDING_ORDER_QUEUE:
       Ref: PendingOrdersQueue
     PENDING_ORDER_QUEUE_NAME: PendingOrdersQueue
-    COMPLETED_ORDER_TABLE: CompletedOrderTable
+    COMPLETED_ORDER_TABLE: ${self:provider.stage}-CompletedOrderTable-${self:provider.region}
   
   iamRoleStatements:
     - Effect: Allow
@@ -61,7 +61,7 @@ resources:
     CompletedOrdersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.stage}-${self:provider.environment.COMPLETED_ORDER_TABLE}-${self:provider.region}
+        TableName: ${self:provider.environment.COMPLETED_ORDER_TABLE}
         AttributeDefinitions:
           - AttributeName: orderId
             AttributeType: S
