@@ -39,7 +39,7 @@ functions:
     handler: handler.hacerPedido
     events:
       - http: 
-          methos: POST 
+          method: POST 
           path: /hacerPedido
   prepararPedido:
     handler: handler.prepararPedido

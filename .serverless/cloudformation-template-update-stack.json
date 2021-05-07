@@ -148,7 +148,7 @@
                     "dynamodb:GetItem",
                     "dynamodb:PutItem"
                   ],
-                  "Resource": "*"
+                  "Resource": "arn:aws:dynamodb:us-east-1:*:table/PendingOrdersQueue"
                 },
                 {
                   "Effect": "Allow",
@@ -200,7 +200,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/pedirPizzas/dev/1620360802930-2021-05-07T04:13:22.930Z/pedirPizzas.zip"
+          "S3Key": "serverless/pedirPizzas/dev/1620361605536-2021-05-07T04:26:45.536Z/pedirPizzas.zip"
         },
         "Handler": "handler.hacerPedido",
         "Runtime": "nodejs14.x",
@@ -235,7 +235,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/pedirPizzas/dev/1620360802930-2021-05-07T04:13:22.930Z/pedirPizzas.zip"
+          "S3Key": "serverless/pedirPizzas/dev/1620361605536-2021-05-07T04:26:45.536Z/pedirPizzas.zip"
         },
         "Handler": "handler.prepararPedido",
         "Runtime": "nodejs14.x",
@@ -295,7 +295,7 @@
         "Policy": ""
       }
     },
-    "ApiGatewayResourcePedido": {
+    "ApiGatewayResourceHacerpedido": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
@@ -304,19 +304,19 @@
             "RootResourceId"
           ]
         },
-        "PathPart": "pedido",
+        "PathPart": "hacerPedido",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
       }
     },
-    "ApiGatewayMethodPedidoPost": {
+    "ApiGatewayMethodHacerpedidoPost": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "HttpMethod": "POST",
         "RequestParameters": {},
         "ResourceId": {
-          "Ref": "ApiGatewayResourcePedido"
+          "Ref": "ApiGatewayResourceHacerpedido"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -353,7 +353,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1620360800139": {
+    "ApiGatewayDeployment1620361602667": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -362,7 +362,7 @@
         "StageName": "dev"
       },
       "DependsOn": [
-        "ApiGatewayMethodPedidoPost"
+        "ApiGatewayMethodHacerpedidoPost"
       ]
     },
     "HacerPedidoLambdaPermissionApiGateway": {
