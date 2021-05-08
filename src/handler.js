@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 
 var sqs = new AWS.SQS({ region: process.env.REGION });
 const QUEUE_URL = process.env.PENDING_ORDER_QUEUE;
-const orderManager = require('./orderMetadataManager')
+const orderManager = require('./dynamoManager')
 
 /*
   hacerPedido

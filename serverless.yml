@@ -10,15 +10,15 @@ provider:
   timeout: 30
   memorySize: 512
   lambdaHashingVersion: 20201221
-  apiName: apiGateway-${self:service}-${self:provider.stage}
+  apiName: apiGateway-${self:provider.stage}
   region: us-east-1
   environment:
     REGION: ${self:provider.region}
     ENVIROMENT: ${self:provider.stage}
     PENDING_ORDER_QUEUE:
       Ref: PendingOrdersQueue
-    PENDING_ORDER_QUEUE_NAME: PendingOrdersQueue
-    COMPLETED_ORDER_TABLE: ${self:provider.stage}-CompletedOrderTable-${self:provider.region}
+    PENDING_QUEUE_NAME: PendingOrdersQueue
+    DYNAMOTABLE: ${self:provider.stage}-CompletedOrderTable
   
   iamRoleStatements:
     - Effect: Allow
@@ -33,7 +33,7 @@ provider:
     - Effect: Allow
       Action:
         - sqs:SendMessage
-      Resource: "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.PENDING_ORDER_QUEUE_NAME}"
+      Resource: "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.PENDING_QUEUE_NAME}"
 
 functions:
   hacerPedido:
@@ -74,11 +74,11 @@ resources:
     PendingOrdersQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: ${self:provider.environment.PENDING_ORDER_QUEUE_NAME}
+        QueueName: ${self:provider.environment.PENDING_QUEUE_NAME}
     CompletedOrdersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.COMPLETED_ORDER_TABLE}
+        TableName: ${self:provider.environment.DYNAMOTABLE}
         AttributeDefinitions:
           - AttributeName: orderId
             AttributeType: S
