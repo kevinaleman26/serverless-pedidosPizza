@@ -10,6 +10,7 @@ provider:
   timeout: 30
   memorySize: 512
   lambdaHashingVersion: 20201221
+  apiName: apiGateway-${self:provider.stage}
   region: us-east-1
   environment:
     REGION: ${self:provider.region}
@@ -18,9 +19,6 @@ provider:
       Ref: PendingOrdersQueue
     PENDING_QUEUE_NAME: PendingOrdersQueue
     DYNAMOTABLE: ${self:provider.stage}-CompletedOrderTable
-  apiGateway: 
-    restApiId: 8ez3fdfwj3
-    restApiRootResourceId: /dev
   
   iamRoleStatements:
     - Effect: Allow
