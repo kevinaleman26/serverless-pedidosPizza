@@ -21,7 +21,7 @@ provider:
     DYNAMOTABLE: ${self:provider.stage}-CompletedOrderTable
   apiGateway: 
     restApiId: 8ez3fdfwj3
-    restApiRootResourceId: /
+    restApiRootResourceId: /dev
   
   iamRoleStatements:
     - Effect: Allow
