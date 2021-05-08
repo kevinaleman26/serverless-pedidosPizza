@@ -42,3 +42,23 @@ module.exports.deliverOrder = orderId => {
     });
 
 };
+
+module.exports.getOrders = orderId => {
+
+    console.log('Conseguir ordenes fue llamada');
+
+    const params = {
+		TableName: process.env.COMPLETED_ORDER_TABLE,
+		Key: {
+			orderId
+		}
+	};
+
+	return dynamo
+		.get(params)
+		.promise()
+		.then(item => {
+			return item.Item;
+		});
+
+};

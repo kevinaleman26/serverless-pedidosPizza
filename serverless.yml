@@ -62,6 +62,12 @@ functions:
             Fn::GetAtt:
               - CompletedOrdersTable
               - StreamArn
+  listarPedido:
+    handler: src/handler.listaPedidos
+    events:
+      - http: 
+          method: GET 
+          path: /listarPedidos/{orderId}
 
 resources:
   Resources:
