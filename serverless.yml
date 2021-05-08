@@ -19,6 +19,8 @@ provider:
       Ref: PendingOrdersQueue
     PENDING_QUEUE_NAME: PendingOrdersQueue
     DYNAMOTABLE: ${self:provider.stage}-CompletedOrderTable
+  apiGateway: 
+    restApiId: 8ez3fdfwj3
   
   iamRoleStatements:
     - Effect: Allow
